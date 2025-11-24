@@ -5,7 +5,7 @@ edition = "2021"
 authors = ["Audio"]
 description = "CityHash 64/128-bit WASM bindings for browser usage"
 license = "MIT"
-repository = "https://github.com/audio/ch128-node"
+repository = "https://github.com/maxjustus/ch-city-wasm"
 
 [lib]
 crate-type = ["cdylib"]

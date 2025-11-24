@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>ch-city standalone example</title>
+</head>
+<body>
+  <h1>CityHash WASM Example</h1>
+  <p>To run: <code>cd ch-city-wasm && python3 -m http.server 8000</code> then open <code>http://localhost:8000/examples/in_browser.html</code></p>
+  <input type="text" id="input" value="hello world" style="width: 300px">
+  <button id="hash">Hash</button>
+  <pre id="output"></pre>
+
+  <script type="module">
+    import { createChCity } from '../dist/ch-city.js';
+
+    const chCity = await createChCity();
+    const input = document.getElementById('input');
+    const output = document.getElementById('output');
+
+    function updateHash() {
+      const text = input.value;
+      output.textContent = [
+        `cityhash64:  ${chCity.cityhash64Hex(text)}`,
+        `cityhash102: ${chCity.cityhash102Hex(text)}`,
+      ].join('\n');
+    }
+
+    document.getElementById('hash').onclick = updateHash;
+    input.oninput = updateHash;
+    updateHash();
+  </script>
+</body>
+</html>

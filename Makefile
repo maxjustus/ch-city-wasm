@@ -3,10 +3,13 @@ WASM_TARGET ?= web
 WASM_OUT_DIR ?= pkg
 WASM_TEST_TARGET ?= nodejs
 
-.PHONY: build build-debug test test-js build-node bench-js lint fmt clean
+.PHONY: build build-debug build-standalone test test-js build-node bench-js lint fmt clean
 
 build:
 	$(WASM_PACK) build --target $(WASM_TARGET) --release --out-dir $(WASM_OUT_DIR)
+
+build-standalone: build
+	node scripts/build-standalone.mjs
 
 build-debug:
 	$(WASM_PACK) build --target $(WASM_TARGET) --dev --out-dir $(WASM_OUT_DIR)
@@ -33,4 +36,4 @@ fmt:
 
 clean:
 	cargo clean
-	rm -rf $(WASM_OUT_DIR)
+	rm -rf $(WASM_OUT_DIR) dist
