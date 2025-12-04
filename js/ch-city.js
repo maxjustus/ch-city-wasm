@@ -20,26 +20,15 @@ function toUint8Array(input) {
   throw new TypeError('cityhash expects a string or (typed) array-like input');
 }
 
-async function loadGeneratedModule(initOptions, moduleLoader) {
+async function loadGeneratedModule(moduleLoader) {
   if (typeof moduleLoader === 'function') {
-    const loaded = await moduleLoader();
-    const init = loaded.default ?? loaded;
-    if (typeof init === 'function') {
-      return init(initOptions);
-    }
-    return init;
+    return moduleLoader();
   }
-
-  const generated = await import('../pkg/ch_city_wasm.js');
-  const init = generated.default ?? generated;
-  if (typeof init === 'function') {
-    return init(initOptions);
-  }
-  return init;
+  return import('../pkg/node.js');
 }
 
-export async function createChCity(initOptions, moduleLoader) {
-  const wasm = await loadGeneratedModule(initOptions, moduleLoader);
+export async function createChCity(moduleLoader) {
+  const wasm = await loadGeneratedModule(moduleLoader);
 
   return {
     version: () => wasm.version(),

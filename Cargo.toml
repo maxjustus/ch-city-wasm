@@ -1,6 +1,6 @@
 [package]
 name = "ch-city-wasm"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["Audio"]
 description = "CityHash 64/128-bit WASM bindings for browser usage"

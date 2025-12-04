@@ -1,31 +1,25 @@
 WASM_PACK ?= wasm-pack
 WASM_TARGET ?= web
 WASM_OUT_DIR ?= pkg
-WASM_TEST_TARGET ?= nodejs
 
-.PHONY: build build-debug build-standalone test test-js build-node bench-js lint fmt clean
+.PHONY: build build-standalone test test-js bench-js lint fmt clean
 
 build:
 	$(WASM_PACK) build --target $(WASM_TARGET) --release --out-dir $(WASM_OUT_DIR)
+	node scripts/add-node-entry.mjs
 
 build-standalone: build
 	node scripts/build-standalone.mjs
-
-build-debug:
-	$(WASM_PACK) build --target $(WASM_TARGET) --dev --out-dir $(WASM_OUT_DIR)
-
-build-node:
-	$(WASM_PACK) build --target $(WASM_TEST_TARGET) --dev --out-dir $(WASM_OUT_DIR)
 
 test: test-rust test-js
 
 test-rust:
 	cargo test
 
-test-js: build-node
+test-js: build
 	node --test js/ch-city.test.mjs
 
-bench-js: build-node
+bench-js: build
 	node js/ch-city.bench.mjs
 
 lint:
